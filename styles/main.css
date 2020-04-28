@@ -79,3 +79,22 @@ td, th {
     vertical-align: top;
     text-align: left;
 }
+
+#add_input input{
+    size: relative;
+}
+
+.capital_letters img{
+    width: 5em;
+    height: 5em;
+}
+
+.lower_letter img{
+    width: 5em;
+    height: 5em;
+    
+}
+
+.bottom_row_letters {
+    align-content: center;
+}
