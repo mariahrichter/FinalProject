@@ -33,7 +33,7 @@
             <td>
                 <form action="" method="post">
                     <input type="hidden" name="controllerRequest"
-                           value="view_answer">
+                           value="display_alphabet_answer">
                     <input type="hidden" name="question_id"
                            value="<?php echo $question->getId(); ?>">
                     <input type="submit" value="View Answer">
@@ -41,7 +41,7 @@
                 <td>
                 <form action="" method="post">
                     <input type="hidden" name="controllerRequest"
-                           value="edit_question">
+                           value="display_edit_question">
                     <input type="hidden" name="question_id"
                            value="<?php echo $question->getId(); ?>">
                     <input type="submit" value="Edit">

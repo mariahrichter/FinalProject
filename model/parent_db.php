@@ -69,6 +69,7 @@ Class ParentDB {
 
         return $parent;
     }
+    
 
     public static function getAllChildrenByParentId($parentId) {
         $db = Database::getDB();
@@ -100,6 +101,8 @@ Class ParentDB {
         }
         return $children;
     }
+    
+    
 
     public static function updateParent($parent) {
         $db = Database::getDB();

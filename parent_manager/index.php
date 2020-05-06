@@ -4,7 +4,9 @@ require('../model/database.php');
 require('../model/parent_db.php');
 require('../model/parent_class.php');
 require('../model/child_class.php');
+require('../model/child_progress.php');
 require('../model/admin_db.php');
+require('../model/learning_db.php');
 session_start();
 require('../model/Utility.php');
 
@@ -131,7 +133,6 @@ if ($controllerChoice == 'login_parent_form') {
             $email = filter_input(INPUT_COOKIE, 'email');
             $password = filter_input(INPUT_COOKIE, 'password');
             include('parent_login.php');
-            
         }
     } else {
         $error_message = "No parent found";
@@ -150,6 +151,14 @@ if ($controllerChoice == 'login_parent_form') {
     include('parent_profile.php');
 
 //displays the edit profile page
+} else if ($controllerChoice == "display_child_progress") {
+    $parentId = $_SESSION["ParentID"];
+    //gets children for the page
+    $children = ParentDB::getAllActiveChildrenByParentId($parentId);
+
+
+
+    include('child_progress.php');
 } else if ($controllerChoice == "edit_profile") {
 
     $parentId = filter_input(INPUT_POST, 'parent_id');

@@ -26,38 +26,42 @@ class AlphabetAnswer {
         $this->isActive = $isActive;
     }
     
-    function getStatusDescription(){
-        
-        if ( $this->isActive == 1)
+    function getStatusDescription() {
+
+        if ($this->isActive == 1) {
             $status = "Active";
-        else
+        } else {
             $status = "Deleted";
-        
+        }
+
         return $status;
     }
-    
-        
-    function getNotStatusDescription(){
-        
-        if ( $this->isActive == 1)
+
+    function getNotStatusDescription() {
+
+        if ($this->isActive == 1) {
             $status = "Deleted";
-        else
+        } else {
             $status = "Active";
-        
+        }
+
         return $status;
     }
-    
+
     function getNotIsActive() {
         $notIsActive = 2;
-        
-       if($this->isActive == 1)
+
+        if ($this->isActive == 1) {
             $notIsActive = 2;
-        
-        if ($this->isActive == 2)
-          $notIsActive = 1;  
+        }
+
+        if ($this->isActive == 2) {
+            $notIsActive = 1;
+        }
 
         return $notIsActive;
     }
+
     
     function getId() {
         return $this->id;

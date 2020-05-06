@@ -11,10 +11,11 @@
  *
  * @author Owner
  */
-class LearningDB{
+class LearningDB {
+
     //put your code here
-    
-        public static function getAllAlphabetQuestions() {
+
+    public static function getAllAlphabetQuestions() {
         $db = Database::getDB();
         $query = 'SELECT * FROM alphabetquestion
                        ORDER BY id';
@@ -22,17 +23,13 @@ class LearningDB{
         $statement->execute();
         $questions = array();
         foreach ($statement as $row) {
-            $question = new AlphabetQuestion($row['id'],
-                                     $row['description'],
-                                     $row['letter'],
-                                     $row['image'],
-                                     $row['active']);
+            $question = new AlphabetQuestion($row['id'], $row['description'], $row['letter'], $row['image'], $row['active']);
             $questions[] = $question;
         }
         return $questions;
     }
-    
-         public static function getAllAlphabetAnswers() {
+
+    public static function getAllAlphabetAnswers() {
         $db = Database::getDB();
         $query = 'SELECT * FROM alphabetanswer
                        ORDER BY id';
@@ -40,15 +37,12 @@ class LearningDB{
         $statement->execute();
         $answers = array();
         foreach ($statement as $row) {
-            $answer = new AlphabetAnswer($row['id'],
-                                     $row['questionId'],
-                                     $row['description'],
-                                     $row['image'],
-                                     $row['active']);
+            $answer = new AlphabetAnswer($row['id'], $row['questionId'], $row['description'], $row['image'], $row['active']);
             $answers[] = $answer;
         }
         return $answers;
     }
+
     //gets the current alphabet question
     public static function getAlphabetQuestionById($questionId) {
         $db = Database::getDB();
@@ -68,7 +62,7 @@ class LearningDB{
 
         return $question;
     }
-    
+
     //gets the current alphabet answer
     public static function getAlphabetAnswerById($answerId) {
         $db = Database::getDB();
@@ -88,5 +82,77 @@ class LearningDB{
 
         return $answer;
     }
+
+    public static function getAlphabetAnswerByQuestionId($questionId) {
+        $db = Database::getDB();
+        $query = 'SELECT * FROM alphabetanswer
+              WHERE questionId = :questionId';
+        $statement = $db->prepare($query);
+        $statement->bindValue(':questionId', $questionId);
+        $statement->execute();
+        $row = $statement->fetch();
+        $statement->closeCursor();
+
+        if ($row['id'] > 0) {
+            $answer = new AlphabetAnswer($row['id'], $row['questionId'], $row['description'], $row['image'], $row['active']);
+        } else {
+            $answer = new AlphabetAnswer(-1, "", "", "", 1);
+        }
+
+        return $answer;
+    }
     
+    public static function getProgressRecordByChildId($childId) {
+        $db = Database::getDB();
+        $query = 'SELECT * FROM childprogress
+              WHERE childId = :childId';
+        $statement = $db->prepare($query);
+        $statement->bindValue(':childId', $childId);
+        $statement->execute();
+        $row = $statement->fetch();
+        $statement->closeCursor();
+
+        if ($row['childId'] > 0) {
+            $progress = new ChildProgress($row['id'], $row['childId'], $row['win'], $row['lose'], $row['totalRounds'], $row['active']);
+        } else {
+            $progress = new ChildProgress(-1, 0, 0, 0, 0, 1);
+        }
+
+        return $progress;
+    }
+
+    public static function addProgressRecord($progress) {
+        $db = Database::getDB();
+        $query = 'INSERT INTO childprogress
+                 (childId, win, lose, totalRounds)
+              VALUES
+                 (:childId, :win, :lose, :totalRounds)';
+        $statement = $db->prepare($query);
+        $statement->bindValue(':childId', $progress->getChildId());
+        $statement->bindValue(':win', $progress->getWin());
+        $statement->bindValue(':lose', $progress->getLose());
+        $statement->bindValue(':totalRounds', $progress->getTotalRounds());
+        $statement->execute();
+        $statement->closeCursor();
+    }
+    
+    public static function updateProgressRecord($progress) {
+        $db = Database::getDB();
+        $query = 'UPDATE childprogress
+                SET win = :win,
+                    lose = :lose,
+                    totalRounds = :totalRounds
+                WHERE childId = :childId';
+
+        $statement = $db->prepare($query);
+        $statement->bindValue(':childId', $progress->getChildId());
+        $statement->bindValue(':win', $progress->getWin());
+        $statement->bindValue(':lose', $progress->getLose());
+        $statement->bindValue(':totalRounds', $progress->getTotalRounds());
+        $statement->execute();
+        $statement->closeCursor();
+    }
+    
+    
+
 }

@@ -246,8 +246,71 @@ if ($controllerChoice == 'display_all_parents') {
         AdminDB::addAlphabetAnswer($answer);
 
         $questions = LearningDB::getAllAlphabetQuestions();
-        
+
         include('alphabet_question_list.php');
+    }
+} else if ($controllerChoice == "display_alphabet_answer") {
+    $questionId = filter_input(INPUT_POST, 'question_id');
+    $answer = LearningDB::getAlphabetAnswerByQuestionId($questionId);
+    $question = LearningDB::getAlphabetQuestionById($questionId);
+
+    include('alphabet_answer.php');
+} else if ($controllerChoice == "display_edit_question"){
+    $questionId = filter_input(INPUT_POST, 'question_id');
+    $question = LearningDB::getAlphabetQuestionById($questionId);
+    $error_message = "";
+    include('edit_alphabet_question.php');
+    
+}  else if ($controllerChoice == "display_edit_answer") {
+    $questionId = filter_input(INPUT_POST, 'question_id');
+    $answer = LearningDB::getAlphabetAnswerByQuestionId($questionId);
+    $question = LearningDB::getAlphabetQuestionById($questionId);
+    $error_message = "";
+
+    include('edit_alphabet_answer.php');
+} else if ($controllerChoice == "update_question") {
+    $questionId = filter_input(INPUT_POST, 'question_id');
+    $description = filter_input(INPUT_POST, 'description');
+    $letter = filter_input(INPUT_POST, 'letter');
+    $image = filter_input(INPUT_POST, 'imagePath');
+    $active = filter_input(INPUT_POST, 'isActive');
+
+    if ($description == NULL || $letter == FALSE || $image == NULL) {
+        $error_message = "Invalid question data. Check all fields and try again.";
+        include('../errors/error.php');
+    } else {
+
+        $question = new AlphabetQuestion($questionId, $description, $letter, $image, $active);
+
+        //adds parent to database
+        AdminDB::updateAlphabetQuestion($question);
+    }
+    
+        $questions = LearningDB::getAllAlphabetQuestions();
+
+        include('alphabet_question_list.php');
+        
+} else if ($controllerChoice == "update_answer") {
+    $answerId = filter_input(INPUT_POST, 'answer_id');
+    $description = filter_input(INPUT_POST, 'description');
+    $questionId = filter_input(INPUT_POST, 'question_id');
+    $image = filter_input(INPUT_POST, 'imagePath');
+    $active = filter_input(INPUT_POST, 'isActive');
+
+    if ($description == NULL || $image == NULL) {
+        $error_message = "Invalid question data. Check all fields and try again.";
+        include('../errors/error.php');
+    } else {
+
+        $updatedAnswer = new AlphabetAnswer($answerId, $questionId, $description, $image, $active);
+
+        //adds parent to database
+        AdminDB::updateAlphabetAnswer($updatedAnswer);
+
+        $answer = LearningDB::getAlphabetAnswerByQuestionId($questionId);
+        $question = LearningDB::getAlphabetQuestionById($questionId);
+
+        include('alphabet_answer.php');
     }
 }
 ?>

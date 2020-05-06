@@ -3,12 +3,8 @@
     <head>
         <title>Early Learning</title>
         <base href="http://localhost/final_project/EarlyLearning/">
-        
-<!--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
-        
+
+        <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="styles/main.css">
     </head>
 
@@ -22,22 +18,89 @@
                 <?php } elseif (Utility::getUserRoleIdFromSession() > 0 || Utility::getUserRoleIdFromSession() == 2) {
                     ?>
                     <li><a href="parent_manager/?controllerRequest=display_parent_profile">My Profile</a></li>
-                    <li><a href="learning_manager/?controllerRequest=display_learning_options">Learning</a></li>
+                    <div class="dropdown">
+                        <button class="dropbtn">Games</button><i class="fa fa-caret-down"></i>
+                        <div class="dropdown-content">
+                            <li><a href="learning_manager/?controllerRequest=display_learning_options">Alphabet Game</a></li>
+                        </div>
+                    </div>
                     <li><a href="parent_manager/?controllerRequest=logOut">
                             <form action="" method="post">
                                 <input type="hidden" name="controllerRequest" value="logOut">
                                 Log Out
                             </form></a></li>
                     <?php if (Utility::getUserRoleIdFromSession() == 2) { ?>
-                        <li><a href="admin_manager/?controllerRequest=display_all_parents">All Users</a></li>
-                        <li><a href="admin_manager/?controllerRequest=display_alphabet_question_list">All Alphabet Questions</a></li>
+                        <div class="dropdown">
+                            <button class="dropbtn">Admin</button><i class="fa fa-caret-down"></i>
+                            <div class="dropdown-content">
+                                <li><a href="admin_manager/?controllerRequest=display_all_parents">All Users</a></li><br>
+                                <li><a href="admin_manager/?controllerRequest=display_alphabet_question_list">All Alphabet Questions</a></li>
+                            </div>
+                        </div>
+
                     <?php } ?>
                 <?php } ?>
             </ul>
         </nav>
-    </header>
+        <div class="weather">
+            <?php
+            if (isset($_SESSION['Parent'])) {
+                $apiKey = "7a3501b48865a753de4a7f70ee334be3";
+                $zipCode = $_SESSION['Parent']->getZip();
+                $countryCode = "US";
+                $googleApiUrl = "api.openweathermap.org/data/2.5/weather?zip=" . $zipCode . "," . $countryCode . "&units=imperial&appid=" . $apiKey;
 
-    <body>
-        <main>
+
+                $ch = curl_init();
+
+
+                curl_setopt($ch, CURLOPT_HEADER, 0);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_URL, $googleApiUrl);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($ch, CURLOPT_VERBOSE, 0);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                $response = curl_exec($ch);
+
+
+                curl_close($ch);
+                $data = json_decode($response);
+                $currentTime = time();
+                $cityName = $data->name;
+            }
+
+            if (isset($_SESSION['Parent'])) {
+                echo "<div style='float: right;'>
+        <h2> $cityName   Weather Status</h2><div class='time'>";
+                echo "<div>" . date('l g:i a', $currentTime) . "</div>";
+                echo "<div>" . date('jS F, Y', $currentTime) . "</div>";
+                ?>
+
+                <div><?php echo ucwords($data->weather[0]->description); ?></div>
+            </div>
+            <div class='weather-forecast'>
+                <img
+                    src='http://openweathermap.org/img/w/<?php echo $data->weather[0]->icon; ?>.png'
+                    class='weather-icon' /> <?php echo $data->main->temp_max; ?>°F <span
+                    class='min-temperature'><?php echo $data->main->temp_min; ?>°F</span>
+            </div>
+            <div class='time'>
+                <div>Humidity: <?php echo $data->main->humidity; ?> %</div>
+                <div>Wind: <?php echo $data->wind->speed; ?> km/h</div>
+            </div>
+        </div>
+
+
+        <?php
+    }
+    ?>
+
+</div>
+
+
+</header>
+
+<body>
+    <main>
 
 
