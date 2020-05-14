@@ -16,7 +16,7 @@
     <br>
     <br>
     <input type="hidden" name="controllerRequest" value="add_alphabet_question">
-    <input type="submit" name="register" value="Add">
+    <input type="submit" name="register" value="Add" class="button">
 </form>
 <br><br>
 </aside>

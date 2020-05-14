@@ -141,7 +141,8 @@ class LearningDB {
         $query = 'UPDATE childprogress
                 SET win = :win,
                     lose = :lose,
-                    totalRounds = :totalRounds
+                    totalRounds = :totalRounds,
+                    dateMod = now()
                 WHERE childId = :childId';
 
         $statement = $db->prepare($query);

@@ -4,6 +4,6 @@
 
 <form action="" method="POST">
     <input type="hidden" name="controllerRequest" value="delete_profile">
-    <input type="submit" name="delete" value="Yes, Delete">
+    <input type="submit" name="delete" value="Yes, Delete" class="button">
 </form>
 <?php include_once '../view/footer.php'; ?>

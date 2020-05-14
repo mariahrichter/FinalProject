@@ -19,7 +19,7 @@
     <td><?php echo $answer->getStatusDescription(); ?></td>
     <br>
     <input type="hidden" name="controllerRequest" value="display_edit_answer">
-    <input type="submit" name="updateParent" value="Update Answer"><br><br>
+    <input type="submit" name="updateParent" value="Update Answer" class="button"><br><br>
 </form>
 
 <br>

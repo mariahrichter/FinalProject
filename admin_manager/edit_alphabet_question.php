@@ -19,7 +19,7 @@
            value="<?php echo $question->getImage(); ?>">
     <br>
         <label>Status</label>
-    <select name="isActive">
+        <select name="isActive">
         <option value="<?php echo $question->getIsActive(); ?>">
             <?php echo $question->getStatusDescription() ?>
         </option>
@@ -28,7 +28,7 @@
     </select>
     <br>
     <input type="hidden" name="controllerRequest" value="update_question">
-    <input type="submit" name="updateParent" value="Update Question"><br><br>
+    <input type="submit" name="updateParent" value="Update Question" class="button"><br><br>
 </form>
 
 <h2 class="error"> <?php echo $error_message; ?></h2>

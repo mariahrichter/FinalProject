@@ -30,7 +30,7 @@
     </select>
     <br>
     <input type="hidden" name="controllerRequest" value="update_answer">
-    <input type="submit" name="updateParent" value="Update Answer"><br><br>
+    <input type="submit" name="updateParent" value="Update Answer" class="button"><br><br>
 </form>
 
 <h2 class="error"> <?php echo $error_message; ?></h2>

@@ -1,6 +1,7 @@
 <?php include_once '../view/header.php'; ?>
-<h1>Parent List</h1>
+<h1>Question List</h1>
 
+<div class="questionList">
 <table>
     <tr>
         <th>ID</th>
@@ -28,7 +29,7 @@
                            value="add_answer_form">
                     <input type="hidden" name="question_id"
                            value="<?php echo $question->getId(); ?>">
-                    <input type="submit" value="Add Answer">
+                    <input type="submit" value="Add Answer" class="button">
                 </form></td>
             <td>
                 <form action="" method="post">
@@ -36,7 +37,7 @@
                            value="display_alphabet_answer">
                     <input type="hidden" name="question_id"
                            value="<?php echo $question->getId(); ?>">
-                    <input type="submit" value="View Answer">
+                    <input type="submit" value="View Answer" class="button">
                 </form></td>
                 <td>
                 <form action="" method="post">
@@ -44,12 +45,13 @@
                            value="display_edit_question">
                     <input type="hidden" name="question_id"
                            value="<?php echo $question->getId(); ?>">
-                    <input type="submit" value="Edit">
+                    <input type="submit" value="Edit" class="button">
                 </form></td>
         </tr>
     <?php endforeach; ?>
 </table>
+</div>
 <br>
-<button type="button"><a href="admin_manager/?controllerRequest=display_add_alphabet_question">Add Question</a></button>
+<button type="button" class="button"><a href="admin_manager/?controllerRequest=display_add_alphabet_question">Add Question</a></button>
 <br>
 <?php include_once '../view/footer.php'; ?>

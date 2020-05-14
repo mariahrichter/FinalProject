@@ -6,7 +6,8 @@
     <img src="<?php echo $question->getImage(); ?>" alt=""/>
     </div> 
 <br>
-<h2 class="message"> <?php echo $message; ?></h2>
+<h1 class="correct_message"> <?php echo $correctMessage; ?></h1>
+<h1 class="incorrect_message"> <?php echo $incorrectMessage; ?></h1>
 <br>
 <br>
 <div class='capital_letters'>

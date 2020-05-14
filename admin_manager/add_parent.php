@@ -1,6 +1,6 @@
 <?php include_once '../view/header.php'; ?>
+<br>
 <h1>Add Parent</h1>
-
 <form action="" method="POST">
     <label>Role</label>
     <select name="roleId">
@@ -21,17 +21,17 @@
     <input type="text" name="email">
     <br>
     <label>Password:</label>
-    <input type="text" name="password">
+    <input type="password" name="password">
     <br>
     <label>Confirm Password:</label>
-    <input type="text" name="password2">
+    <input type="password" name="password2">
     <br>
     <label>Zip Code:</label>
     <input type="text" name="zip">
     <br>
-    
+
     <input type="hidden" name="controllerRequest" value="add_parent">
-    <input type="submit" name="register" value="Register">
+    <input type="submit" name="register" value="Register" class="button">
 </form>
 
 <h2 class="error"> <?php echo $error_message; ?></h2>

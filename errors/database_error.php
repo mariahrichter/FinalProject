@@ -6,5 +6,3 @@
     <p>Error message: <?php echo $error_message; ?></p>
     <p>&nbsp;</p>
 <?php include_once '../view/footer.php'; ?>
-<?php include_once '../model/showGetPostVariables.php'; ?>
-<?php //funShowAllPOSTandGETvariables(); ?>

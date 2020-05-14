@@ -63,7 +63,8 @@ class AdminDB {
                 SET description = :description,
                     letter = :letter,
                     image = :image,
-                    active = :active
+                    active = :active,
+                    dateMod = now()
                 WHERE id = :id';
 
         $statement = $db->prepare($query);
@@ -82,7 +83,8 @@ class AdminDB {
                 SET questionId = :questionId,
                     description = :description,
                     image = :image,
-                    active = :active
+                    active = :active,
+                    dateMod = now()
                 WHERE id = :id';
 
         $statement = $db->prepare($query);

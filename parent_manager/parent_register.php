@@ -16,14 +16,14 @@
     <input type="text" name="email">
     <br>
     <label>Password:</label>
-    <input type="text" name="password">
+    <input type="password" name="password">
     <br>
     <label>Zip Code:</label>
-    <input type="text" name="zip">
+    <input maxlength="5" pattern="[0-9]{5,}" type="text" name="zip">
     <br>
 
     <input type="hidden" name="controllerRequest" value="add_parent">
-    <input type="submit" name="register" value="Register">
+    <input type="submit" name="register" value="Register" class="button">
 </form>
 
 <h2 class="error"> <?php echo $error_message; ?></h2>

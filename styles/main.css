@@ -1,6 +1,6 @@
 html{
     background-image:url("../images/background.jpg");
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-size: 1350px, 900px;
 }
 body { 
@@ -8,6 +8,8 @@ body {
     font-size: 100%;
     width: 900px;
     margin: 0 auto;
+    display: flex-box;
+    flex-wrap: wrap;
 }
 main {
     font-family: 'Bubblegum Sans', cursive;
@@ -15,95 +17,67 @@ main {
     width: 900px;
     margin: 0 auto;
     padding: 1em;
-    background: transparent;
+    background-color: rgba(255,255,255,0.6);;
 }
 header{
     font-family: 'Bubblegum Sans', cursive;
-    background-size: 900px;
-    padding: 1em;
-    
-}
+    padding: 2em;
 
-nav{
-    width: 937px;
-    margin: 0 auto;
-    font-size: 2em;
 
 }
-nav ul {
+
+#nav_menu { 
+    clear: left;
+
+}
+#nav_menu ul {
     list-style-type: none;
+    position: relative;
     margin: 0 auto;
     padding: 0;
     overflow: hidden;
 
 }
 
-nav li {
+#nav_menu ul li{
     float: left;
-    display: inline;
+    /* color: inherit; */
+    width: 20%;
 }
+#nav_menu ul ul {
+    display: none;
+    position: relative;
+    top: 100%;
+    width: 100%;
 
-nav li a {
+}
+#nav_menu ul ul li {
+    float: none;
+    position: relative;
+    width: 100%;
+
+}
+#nav_menu ul li:hover > ul{
     display: block;
-    color: white;
-    padding: 14px 25px;
+}
+/* If below isn't there, sub-menus are small */
+#nav_menu ul li:hover ul{
+    width: 100%;
+}
+#nav_menu ul li a:hover, #nav_menu ul li a:focus{
+    background-color: #00ffcc;
+}
+
+#nav_menu ul li a {
+    text-align: center;
+    display: block;
     text-decoration: none;
+    background-color: transparent;
+    color: black;
+    font-weight: bold;
+    padding: 14px 25px;
     margin: 0 auto;
-}
-/* The dropdown container */
-.dropdown {
-  float: left;
-  overflow: hidden;
-}
-
-/* Dropdown button */
-.dropdown .dropbtn {
-  font-size: 16px;
-  border: none;
-  outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit; /* Important for vertical align on mobile phones */
-  margin: 0; /* Important for vertical align on mobile phones */
-}
-
-/* Dropdown content (hidden by default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
-
-/* Add a grey background color to dropdown links on hover */
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-/* Change the link color to #111 (black) on hover */
-nav li a:hover, .dropdown:hover .dropbtn {
-    background-color: #111;
-}
-
-body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
 }
 
 h1 {
@@ -116,22 +90,11 @@ label {
     padding-right: 1em;
     padding-bottom: .5em;
 }
-#data input {
-    float: left;
-    width: 15em;
-    margin-bottom: .5em;
-}
-#buttons input {
-    float: left;
-    margin-bottom: .5em;
-}
+
 br {
     clear: left;
 }
-.error {
-    color: red;
-    font-weight: bold;
-}
+
 
 table {
     border: 1px solid black;
@@ -144,37 +107,241 @@ td, th {
     text-align: left;
 }
 
+/*form {
+    
+}*/
 
-.capital_letters img{
-    width: 5em;
-    height: 5em;
+#data input {
+    float: left;
+    width: 15em;
+    margin-bottom: .5em;
 }
 
+#buttons input {
+    float: left;
+    margin-bottom: .5em;
+}
+
+.correct_message{
+    color: chartreuse;
+    padding-left: 10em;
+}
+
+.incorrect_message{
+    color: red;
+    padding-left: 10em;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+.updateProfile {
+    padding: 2em;
+
+}
+.passwordVerify{
+
+    padding: 2em;
+}
+.child{
+    padding: 2em;
+}
+.child form{
+    display: inline-block;
+}
+.profile{
+    padding: 2em;
+}
+.player{
+    padding-left: 20em;
+}
+.capital_letters img{
+    width: 4em;
+    height: 4em;
+    margin: 0;
+    padding: 0;
+}
+.capital_letters form{
+    display: inline-block; 
+}
 .lower_letter img{
     width: 3em;
     height: 3em;
-    
+
 }
 
-.bottom_row_letters {
-    align-content: center;
+.button {
+    background: #B9DFFF;
+    color: #fff;
+    border: 1px solid #eee;
+    border-radius: 20em;
+    box-shadow: 5px 5px 5px #eee;
+    text-shadow:none;
+
 }
 
+.button:hover {
+    background: #016ABC;
+    color: #fff;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px #eee;
+    text-shadow:none;
+}
 
 .weather {
     float: right;
+    font-size: .75em;
+    padding: 0;
+    margin: 0;
 }
 
-form {
-    display: inline-block; 
+.weather-forecast{
+    float: right;
+    font-size: .75em;
+    padding: 0;
+    margin: 0;
+}
+
+.weatherContainer{
+    float: left;
+    font-size: 1em;
+    padding: 3em;
+    margin: 0;
 }
 
 #image_button{
-    background-color: Transparent;
+    background-color: transparent;
     background-repeat:no-repeat;
     border: none;
     cursor:pointer;
     overflow: hidden;
     outline:none;
 }
-    
+
+@media only screen and (min-width: 900px){
+    #nav_menu {
+        display: block;
+    }
+    #mobile_menu {
+        display: none;
+
+    }
+}
+
+@media only screen and (max-width: 900px){
+    body{
+        display: flex;
+        flex-flow: wrap;
+        width: 95%;
+        font-size: 75%;
+    }
+
+
+    header{
+        order: 1;
+    }
+    header h1{
+        font-size: 100%;
+    }
+    main{
+        order: 2;
+        width: 100%;
+        align-content: center;
+    }
+
+    #nav_menu{
+        display: block;
+    }
+
+    #mobile_menu{
+        display: none;
+    }
+
+}
+@media only screen and (max-width: 767px){
+    html{
+        background-size: 1350px, 300px; 
+    }
+    body{
+        display: flex;
+        flex-flow: wrap;
+        width: 80%;
+        font-size: 70%;
+
+    }
+
+    header{
+        order: 1;
+        width: 100%;
+    }
+    main{
+        order: 2;
+        width: 100%;
+    }
+    .player{
+        padding-left: 0;
+    }
+    .capital_letters img{
+        width: 3em;
+        height: 3em;
+        padding: 0;
+
+    }
+
+    table {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    td, th {
+        border: 1px solid black;
+        padding: .05em .1em .05em .1em;
+        vertical-align: top;
+        text-align: left;
+        width: 50%;
+    }
+    .questionList{
+        float: left;
+    }
+    .weatherContainer{
+        display: none;
+        float: right;
+    }
+    .slicknav_menu {
+        background-color: rgba(255,255,255,0.5) !important;
+    }
+    #mobile_menu{
+        display: block;
+        background-color: rgba(255,255,255,0.6);
+        padding: 3px;
+    }
+    #mobile_menu ul, #mobile_menu a{
+        color: black;
+        font-size: 1em;
+    }
+    #mobile_menu ul a:hover{
+        color: white;
+    }
+    #nav_menu {
+        display: none;
+    }
+
+}
+@media only screen and (max-width: 479px){
+    header, section p{
+        font-size: 75%;
+    }
+
+    header h1 {
+        font-size: 200%;
+
+    }
+    .capital_letters img{
+        width: 3em;
+        height: 3em;
+        padding: 0;
+
+    }
+}
+

@@ -21,10 +21,6 @@ if ($controllerChoice == NULL) {
 if ($controllerChoice == 'login_parent_form') {
     $error_message = "";
 
-    //set input email and password to a cookie
-    $email = filter_input(INPUT_COOKIE, 'email');
-    $password = filter_input(INPUT_COOKIE, 'password');
-
     require_once("parent_login.php");
 
 //processes the login information    
@@ -89,50 +85,95 @@ if ($controllerChoice == 'login_parent_form') {
     //hashes password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     $zip = filter_input(INPUT_POST, 'zip');
+    $validForm = true;
     $error_message = "";
 
     //validation for registering
-    if ($firstName == NULL || $lastName == FALSE ||
-            $zip == NULL || $phone == NULL || $email == NULL || $password == NULL) {
-        $_SESSION["ParentID"] = null;
-        $error_message = "Invalid parent data. Check all fields and try again.";
-        include('../errors/error.php');
-    } else {
+    if ($firstName == NULL || $lastName == FALSE || $zip == NULL ||
+            $phone == NULL || $email == NULL || $password == NULL) {
+
+        $validForm = false;
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $validForm = false;
+    }
+
+//validating phone number
+    //eliminate every char except 0-9
+    $justNums = preg_replace("/[^0-9]/", '', $phone);
+    //eliminate leading 1 if its there
+    if (strlen($justNums) == 11) {
+        $justNums = preg_replace("/^1/", '', $justNums);
+    }
+    //if we don't have 10 digits left, it's probably not valid.
+    if (strlen($justNums) != 10) {
+        $validForm = false;
+    }
+
+    if ($zip == 00000) {
+        $validForm = false;
+    }
+
+    if ($validForm) {
+        $phone = $justNums;
         //new parent object
         $parent = new ParentClass(-1, 1, $firstName, $lastName, $phone, $email, $hashed_password, $zip, 1);
-
         //adds parent to database
         $parentId = ParentDB::addParent($parent);
         $_SESSION["ParentID"] = $parentId;
+        require_once "add_child.php";
+    } else {
+
+        $error_message = "Invalid parent data. Make sure all Fields are filled out.";
+        include('../errors/error.php');
     }
 
     //goes to add child page
-    require_once "add_child.php";
-
 //processes child information
 } else if ($controllerChoice == 'add_child') {
     //gets data
     $parentId = $_SESSION["ParentID"];
     $childUsername = filter_input(INPUT_POST, 'username');
     $birthday = filter_input(INPUT_POST, 'birthday');
+    $today = date('Y-m-d H:i:s',time());
+    $validForm = true;
+    
+    if($birthday > $today){
+        $validForm = false;
+    }
+    //vali
 
     //can add a child to the parent logged in
     if ($parentId > 0) {
         //validation
         if ($parentId == NULL || $childUsername == NULL || $birthday == NULL) {
-            $error_message = "Invalid child data. Check all fields and try again.";
-            include('../errors/error.php');
-        } else {
+            $validForm = false;
+            
+        } 
+        
+        if($validForm) {
             //new child object
             $child = new ChildClass(-1, $parentId, $childUsername, $birthday, 1);
             //adds the child to the parent
             ParentDB::addChildToParent($child);
 
             //for displaying the login page again
-            $error_message = "";
-            $email = filter_input(INPUT_COOKIE, 'email');
-            $password = filter_input(INPUT_COOKIE, 'password');
-            include('parent_login.php');
+            if (!isset($_SESSION['Parent'])) {
+                $error_message = "";
+
+                include('parent_login.php');
+            } else {
+                $parentId = $_SESSION["ParentID"];
+                //get parent by id for the page
+                $parent = ParentDB::getParentById($parentId);
+                //gets children for the page
+                $children = ParentDB::getAllActiveChildrenByParentId($parentId);
+
+                include('parent_profile.php');
+            }
+        }else {
+            $error_message = "Invalid child data. Check all fields and try again.";
+            include('../errors/error.php');
         }
     } else {
         $error_message = "No parent found";
@@ -188,13 +229,37 @@ if ($controllerChoice == 'login_parent_form') {
     $password = $parent->getPassword();
 
     $zip = filter_input(INPUT_POST, 'zip');
+    $validForm = true;
 
     //validate input
     if ($firstName == NULL || $lastName == FALSE || $phone == NULL ||
             $email == NULL || $zip == NULL) {
-        $error = "Invalid parent data. Check all fields and try again.";
-        include('../errors/error.php');
-    } else {
+        $validForm = false;
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $validForm = false;
+    }
+
+//validating phone number
+    //eliminate every char except 0-9
+    $justNums = preg_replace("/[^0-9]/", '', $phone);
+    //eliminate leading 1 if its there
+    if (strlen($justNums) == 11) {
+        $justNums = preg_replace("/^1/", '', $justNums);
+    }
+    //if we don't have 10 digits left, it's probably not valid.
+    if (strlen($justNums) != 10) {
+        $validForm = false;
+    }
+
+    if ($zip == 00000) {
+        $validForm = false;
+    }
+
+
+    if ($validForm) {
+        $phone = $justNums;
         //if valid create new parent object
         $parent = new ParentClass($parentId, 1, $firstName, $lastName, $phone, $email, $password, $zip, 1);
         //update the parent
@@ -203,6 +268,10 @@ if ($controllerChoice == 'login_parent_form') {
         //get the child information for the parent profile
         $children = ParentDB::getAllActiveChildrenByParentId($parentId);
         require_once "parent_profile.php";
+    } else {
+
+        $error_message = "Invalid parent data. Make sure all Fields are filled out.";
+        include('../errors/error.php');
     }
 
 
@@ -266,12 +335,18 @@ if ($controllerChoice == 'login_parent_form') {
     $childId = filter_input(INPUT_POST, 'child_id');
     $childUsername = filter_input(INPUT_POST, 'childUsername');
     $childBirthday = filter_input(INPUT_POST, 'childBirthday');
-
+    $today = date('Y-m-d H:i:s',time());
+    $validForm = true;
+    
+    if($childBirthday > $today){
+        $validForm = false;
+    }
     //validate
     if ($childUsername == NULL || $childBirthday == NULL) {
-        $error_message = "Invalid child data. Check all fields and try again.";
-        include('../errors/error.php');
-    } else {
+        $validForm = false;
+    } 
+    
+    if($validForm) {
         //set child birthday to database form.
         $childBirthday = date("Y-m-d", strtotime(str_replace('/', '-', $childBirthday)));
         //create new child object
@@ -283,6 +358,9 @@ if ($controllerChoice == 'login_parent_form') {
         $parent = ParentDB::getParentById($parentId);
         $children = ParentDB::getAllActiveChildrenByParentId($parentId);
         require_once "parent_profile.php";
+    }else{
+        $error_message = "Invalid child data. Check all fields and try again.";
+        include('../errors/error.php');
     }
 //displays the verify delete page
 } else if ($controllerChoice == "verify_delete_profile") {

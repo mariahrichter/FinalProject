@@ -69,7 +69,6 @@ Class ParentDB {
 
         return $parent;
     }
-    
 
     public static function getAllChildrenByParentId($parentId) {
         $db = Database::getDB();
@@ -85,7 +84,7 @@ Class ParentDB {
         }
         return $children;
     }
-    
+
     public static function getAllActiveChildrenByParentId($parentId) {
         $db = Database::getDB();
         $query = 'SELECT * FROM child
@@ -96,13 +95,15 @@ Class ParentDB {
         $statement->execute();
         $children = array();
         foreach ($statement as $row) {
-            $child = new ChildClass($row['id'], $row['parentId'], $row['userName'], $row['birthday'], $row['active']);
-            $children[] = $child;
+            if ($row['id'] > 0) {
+                $child = new ChildClass($row['id'], $row['parentId'], $row['userName'], $row['birthday'], $row['active']);
+                $children[] = $child;
+            } else {
+                $children[] = null;
+            }
         }
         return $children;
     }
-    
-    
 
     public static function updateParent($parent) {
         $db = Database::getDB();
@@ -114,7 +115,8 @@ Class ParentDB {
                     email = :email,
                     password = :password,
                     zip = :zip,
-                    active = :active
+                    active = :active,
+                    dateMod = now()
                 WHERE id = :id';
 
         $statement = $db->prepare($query);
@@ -157,7 +159,8 @@ Class ParentDB {
                     parentId = :parentId,
                     userName = :userName,
                     birthday = :birthday,
-                    active = :active
+                    active = :active,
+                    dateMod = now()
                 WHERE id = :id';
 
         $statement = $db->prepare($query);
@@ -173,7 +176,8 @@ Class ParentDB {
     public static function deleteParentById($parentId) {
         $db = Database::getDB();
         $query = 'UPDATE parent
-                SET active = :active
+                SET active = :active,
+                dateMod = now()
                 WHERE id = :id';
 
         $statement = $db->prepare($query);
@@ -186,7 +190,8 @@ Class ParentDB {
     public static function deleteChildByParentId($parentId) {
         $db = Database::getDB();
         $query = 'UPDATE child
-                SET active = :active
+                SET active = :active,
+                dateMod = now()
                 WHERE parentId = :parentId';
 
         $statement = $db->prepare($query);
@@ -195,11 +200,12 @@ Class ParentDB {
         $statement->execute();
         $statement->closeCursor();
     }
-    
+
     public static function deleteChildById($childId) {
         $db = Database::getDB();
         $query = 'UPDATE child
-                SET active = :active
+                SET active = :active,
+                dateMod = now()
                 WHERE id = :id';
 
         $statement = $db->prepare($query);

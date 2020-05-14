@@ -33,7 +33,7 @@
                            value="add_child_form">
                     <input type="hidden" name="parent_id"
                            value="<?php echo $parent->getId(); ?>">
-                    <input type="submit" value="Add Child">
+                    <input type="submit" value="Add Child" class="button">
                 </form></td>
             <td>
                 <form action="" method="post">
@@ -41,12 +41,12 @@
                            value="edit_parent">
                     <input type="hidden" name="parent_id"
                            value="<?php echo $parent->getId(); ?>">
-                    <input type="submit" value="Edit">
+                    <input type="submit" value="Edit" class="button">
                 </form></td>
         </tr>
     <?php endforeach; ?>
 </table>
 <br>
-<button type="button"><a href="admin_manager/?controllerRequest=display_add_parent">Add Parent</a></button>
+<button type="button" class="button"><a href="admin_manager/?controllerRequest=display_add_parent">Add Parent</a></button>
 <br>
 <?php include_once '../view/footer.php'; ?>

@@ -1,6 +1,6 @@
 
 <?php include_once '../view/header.php'; ?>
-
+<br>
 <h1>Update Parent</h1>
 
 <form action="" method="POST">
@@ -79,7 +79,8 @@ foreach ($children as $child) :
         <input type="childUsername" name="childUsername"
                value="<?php echo $child->getChildUsername(); ?>"><br>
         <label>Birthday:</label>
-        <input type="date" name="childBirthday" value="<?php echo date("m/d/y", strtotime($child->getBirthday())); ?>"><br>
+<!--        gets birthday in common format-->
+        <input type="date" name="childBirthday" value="<?php echo date("Y-m-d", strtotime($child->getBirthday())); ?>"><br>
         <br>
         <label>Status</label>
         <select name="isActive">
@@ -95,7 +96,7 @@ foreach ($children as $child) :
            value="<?php echo $child->getParentId(); ?>">
         <input type="hidden" name="child_id"
                value="<?php echo $child->getId(); ?>">
-        <input type="submit" value="Save">  
+        <input type="submit" value="Save" class="button">  
         <br>
         <br>
     </form>
